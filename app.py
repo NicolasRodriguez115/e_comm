@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS 
 from database import db
 from models.schemas import ma
 from limiter import limiter
@@ -30,6 +31,9 @@ def create_app(config_name):
     limiter.init_app(app)
     cache.init_app(app)
 
+    blueprint_config(app)
+
+    # rate_limit_config()
     print('Running')
     return app
 
@@ -43,14 +47,9 @@ def rate_limit_config():
     limiter.limit("3 per day")(customer_blueprint)
 
 if __name__ == '__main__':
-    app = create_app('DevelopmentConfig')
+    app = create_app('ProductionConfig')
 
-    blueprint_config(app)
-
-    # rate_limit_config()
 
     with app.app_context():
-        # db.drop_all()
+        db.drop_all()
         db.create_all()
-
-    app.run()

@@ -6,6 +6,6 @@ class DevelopmentConfig:
     DEBUG = True
 
 class ProductionConfig:
-    DATABASE_URL = os.environ.get('DATABASE_URL') or 'sqlite:///app.db'
+    SQLALCHEMY_DATABASE_URIL = os.environ.get('DATABASE_URL') or 'sqlite:///app.db'
     CACHE_TYPE = 'SimpleCache'
     DEBUG = False

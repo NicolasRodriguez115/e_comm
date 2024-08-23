@@ -30,11 +30,13 @@ def create_app(config_name):
     ma.init_app(app)
     limiter.init_app(app)
     cache.init_app(app)
+    CORS(app)
 
-    blueprint_config(app)
-
-    # rate_limit_config()
     print('Running')
+    blueprint_config(app)
+    # rate_limit_config()
+
+
     return app
 
 def blueprint_config(app):
@@ -46,10 +48,11 @@ def blueprint_config(app):
 def rate_limit_config():
     limiter.limit("3 per day")(customer_blueprint)
 
-if __name__ == '__main__':
-    app = create_app('ProductionConfig')
+# if __name__ == '__main__':
+#     app = create_app('DevelopmentConfig')
 
+app = create_app('ProductionConfig')
 
-    with app.app_context():
-        db.drop_all()
-        db.create_all()
+with app.app_context():
+    db.drop_all()
+    db.create_all()
